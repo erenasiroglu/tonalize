@@ -20,7 +20,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import SavedInputsCV from "./SavedInputsCV";
+import SavedInputs from "@/components/SavedInputs";
 
 const CVToolsPage = () => {
   const router = useRouter();
@@ -34,7 +34,26 @@ const CVToolsPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedOutputType, setSelectedOutputType] = useState("coverLetter");
   const [isSavingEnabled, setIsSavingEnabled] = useState(true);
+  const [savedInputs, setSavedInputs] = useState<
+    Array<{ id: number; text: string; tone: string; date: string }>
+  >([]);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const loadSavedInput = (input: {
+    id: number;
+    text: string;
+    tone: string;
+    date: string;
+  }) => {
+    setFormData({ ...formData, position: input.text });
+    setSelectedOutputType(input.tone);
+  };
+
+  const deleteSavedInput = (id: number) => {
+    const updatedInputs = savedInputs.filter((input) => input.id !== id);
+    setSavedInputs(updatedInputs);
+    localStorage.setItem("savedCVToolsInputs", JSON.stringify(updatedInputs));
+  };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -62,10 +81,8 @@ const CVToolsPage = () => {
         }. With my skills and experience, I believe I would be a valuable asset to your team...\n\n[Full AI-generated content would appear here]`
       );
       setIsLoading(false);
-
-      // Save the input only if saving is enabled
       if (isSavingEnabled) {
-        const newInput: SavedInput = {
+        const newInput: SavedInputs = {
           id: Date.now(),
           ...formData,
           outputType: selectedOutputType,
@@ -91,27 +108,6 @@ const CVToolsPage = () => {
 
   return (
     <>
-      <Head>
-        <title>
-          Tonalize - AI CV Tools | Professional Career Document Generator
-        </title>
-        <meta
-          name="description"
-          content="Create professional career documents with Tonalize's AI-powered CV tools. Generate cover letters, thank you emails, and more with ease."
-        />
-        <meta
-          name="keywords"
-          content="Tonalize, AI CV tools, cover letter generator, career documents, job application"
-        />
-        <meta property="og:title" content="Tonalize - AI CV Tools" />
-        <meta
-          property="og:description"
-          content="Create professional career documents with Tonalize's AI-powered CV tools. Generate cover letters, thank you emails, and more with ease."
-        />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://tonalize.com/cv-tools" />
-        <link rel="canonical" href="https://tonalize.com/cv-tools" />
-      </Head>
       <div className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100 dark:from-gray-900 dark:to-indigo-900">
         <nav className="bg-white dark:bg-gray-800 shadow-md">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -323,10 +319,10 @@ const CVToolsPage = () => {
           </button>
           {isMenuOpen && (
             <div className="absolute bottom-16 right-0 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-xl p-4 overflow-y-auto max-h-96">
-              <SavedInputsCV
+              <SavedInputs
                 savedInputs={savedInputs}
-                onDelete={handleDeleteSavedInput}
-                onView={handleViewSavedInput}
+                onLoad={loadSavedInput}
+                onDelete={deleteSavedInput}
               />
             </div>
           )}
