@@ -20,7 +20,7 @@ import {
 
 const CVToolsPage = () => {
   const router = useRouter();
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState<File | null>(null);
   const [formData, setFormData] = useState({
     companyName: "",
     position: "",
@@ -30,16 +30,16 @@ const CVToolsPage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [selectedOutputType, setSelectedOutputType] = useState("coverLetter");
 
-  const handleFileChange = (e) => {
-    const selectedFile = e.target.files[0];
-    setFile(selectedFile);
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFile = e.target.files?.[0];
+    setFile(selectedFile || null);
   };
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     // Simulate API call

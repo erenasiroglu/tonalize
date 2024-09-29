@@ -21,14 +21,14 @@ const TextEditorPage = () => {
     "Daha Kısa",
   ];
 
-  const handleToneChange = async (tone) => {
+  const handleToneChange = async (tone: string) => {
     setSelectedTone(tone);
     if (inputText) {
       await transformText(tone);
     }
   };
 
-  const transformText = async (tone) => {
+  const transformText = async (tone: string) => {
     setIsLoading(true);
     // Simulate API call
     setTimeout(() => {
