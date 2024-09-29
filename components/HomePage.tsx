@@ -1,21 +1,31 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
-import { Sun, Moon, Globe, Zap, FileText, MessageSquare } from "lucide-react";
+import {
+  Sun,
+  Moon,
+  Globe,
+  Zap,
+  FileText,
+  MessageSquare,
+  CreditCard,
+  Sparkles,
+  HelpCircle,
+  Gift,
+} from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 
 const HomePage = () => {
   const router = useRouter();
-  const [isDarkMode, setIsDarkMode] = useState(false);
+  const [isDarkMode, setIsDarkMode] = useState(true);
   const [language, setLanguage] = useState("en");
 
   const toggleDarkMode = () => {
     setIsDarkMode(!isDarkMode);
-    document.documentElement.classList.toggle("dark");
+    document.documentElement.classList.toggle("light");
   };
 
   const changeLanguage = () => {
-    // Implement language change logic here
     setLanguage(language === "en" ? "tr" : "en");
   };
 
@@ -62,12 +72,12 @@ const HomePage = () => {
               className="text-center"
             >
               <h1 className="text-4xl font-extrabold text-gray-900 dark:text-white sm:text-5xl md:text-6xl">
-                Transform Your Text with AI
+                Transform Your Text with AI-Powered Precision
               </h1>
               <p className="mt-3 max-w-md mx-auto text-base text-gray-500 dark:text-gray-300 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-                Enhance your writing with our advanced AI-powered text editor.
-                Choose from various tones and create professional documents
-                effortlessly.
+                Elevate your writing across languages and cultures with
+                Tonalize's advanced AI technology. Craft the perfect tone for
+                any audience, anywhere.
               </p>
               <div className="mt-5 max-w-md mx-auto sm:flex sm:justify-center md:mt-8">
                 <div className="rounded-md shadow">
@@ -92,7 +102,7 @@ const HomePage = () => {
 
           <div className="mt-16">
             <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white text-center">
-              Our Features
+              How Tonalize Works
             </h2>
             <div className="mt-12 grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
               {features.map((feature, index) => (
@@ -106,6 +116,99 @@ const HomePage = () => {
                   <div className="p-6">
                     <div className="flex items-center">
                       <div className="w-12 h-12 rounded-md bg-indigo-500 flex items-center justify-center">
+                        <feature.icon
+                          className="h-6 w-6 text-white"
+                          aria-hidden="true"
+                        />
+                      </div>
+                      <h3 className="ml-3 text-lg font-medium text-gray-900 dark:text-white">
+                        {feature.name}
+                      </h3>
+                    </div>
+                    <p className="mt-4 text-sm text-gray-500 dark:text-gray-300">
+                      {feature.description}
+                    </p>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-16">
+            <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white text-center">
+              Pricing Plans
+            </h2>
+            <div className="mt-12 grid gap-8 grid-cols-1 md:grid-cols-3">
+              {pricingPlans.map((plan, index) => (
+                <motion.div
+                  key={plan.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg hover:shadow-lg transition-shadow duration-200"
+                >
+                  <div className="p-6">
+                    <h3 className="text-2xl font-semibold text-gray-900 dark:text-white">
+                      {plan.name}
+                    </h3>
+                    <p className="mt-4 text-gray-500 dark:text-gray-300">
+                      {plan.description}
+                    </p>
+                    <p className="mt-8">
+                      <span className="text-4xl font-extrabold text-gray-900 dark:text-white">
+                        ${plan.price}
+                      </span>
+                      <span className="text-base font-medium text-gray-500 dark:text-gray-300">
+                        /month
+                      </span>
+                    </p>
+                    <ul className="mt-6 space-y-4">
+                      {plan.features.map((feature, index) => (
+                        <li key={index} className="flex items-start">
+                          <div className="flex-shrink-0">
+                            <Zap
+                              className="h-6 w-6 text-green-500"
+                              aria-hidden="true"
+                            />
+                          </div>
+                          <p className="ml-3 text-base text-gray-700 dark:text-gray-300">
+                            {feature}
+                          </p>
+                        </li>
+                      ))}
+                    </ul>
+                    <div className="mt-8">
+                      <div className="rounded-md shadow">
+                        <a
+                          href="#"
+                          className="flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700"
+                        >
+                          Get started
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-16">
+            <h2 className="text-3xl font-extrabold text-gray-900 dark:text-white text-center">
+              Coming Soon
+            </h2>
+            <div className="mt-12 grid gap-8 grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+              {upcomingFeatures.map((feature, index) => (
+                <motion.div
+                  key={feature.name}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg hover:shadow-lg transition-shadow duration-200"
+                >
+                  <div className="p-6">
+                    <div className="flex items-center">
+                      <div className="w-12 h-12 rounded-md bg-purple-500 flex items-center justify-center">
                         <feature.icon
                           className="h-6 w-6 text-white"
                           aria-hidden="true"
@@ -144,22 +247,78 @@ const HomePage = () => {
 
 const features = [
   {
-    name: "AI-Powered Editing",
+    name: "Multilingual AI Editing",
     description:
-      "Our advanced AI algorithms help you refine your text to perfection.",
-    icon: Zap,
+      "Our advanced AI algorithms refine your text in any language, ensuring perfect tone and style globally.",
+    icon: Globe,
   },
   {
-    name: "Multiple Tones",
+    name: "Tone Selection",
     description:
-      "Choose from a variety of tones to match your writing style and audience.",
+      "Choose from various tones including Professional, Academic, Casual, Persuasive, and more to match your audience.",
     icon: MessageSquare,
   },
   {
-    name: "CV Tools",
+    name: "CV & Professional Document Tools",
     description:
-      "Create professional CVs and cover letters tailored to your career goals.",
+      "Create tailored CVs, cover letters, and professional communications with our AI-powered assistant.",
     icon: FileText,
+  },
+];
+
+const pricingPlans = [
+  {
+    name: "Free",
+    description: "Basic features for personal use",
+    price: 0,
+    features: [
+      "Limited AI text editing",
+      "Basic tone adjustments",
+      "1 CV template",
+    ],
+  },
+  {
+    name: "Pro",
+    description: "Advanced features for professionals",
+    price: 9.99,
+    features: [
+      "Unlimited AI text editing",
+      "All tone options",
+      "5 CV templates",
+      "Cover letter generator",
+    ],
+  },
+  {
+    name: "Enterprise",
+    description: "Custom solutions for teams",
+    price: 49.99,
+    features: [
+      "All Pro features",
+      "Team collaboration tools",
+      "Custom AI model training",
+      "Priority support",
+    ],
+  },
+];
+
+const upcomingFeatures = [
+  {
+    name: "Real-time Collaboration",
+    description:
+      "Edit and refine documents with your team in real-time, powered by AI suggestions.",
+    icon: Sparkles,
+  },
+  {
+    name: "Advanced Analytics",
+    description:
+      "Gain insights into your writing style and improvement over time with detailed analytics.",
+    icon: CreditCard,
+  },
+  {
+    name: "24/7 AI Writing Assistant",
+    description:
+      "Get instant help and suggestions from our AI writing assistant, available round the clock.",
+    icon: HelpCircle,
   },
 ];
 

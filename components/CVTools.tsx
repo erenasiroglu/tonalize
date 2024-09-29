@@ -103,7 +103,7 @@ const CVToolsPage = () => {
                 Home
               </button>
               <h1 className="text-2xl font-bold text-indigo-600 dark:text-indigo-100">
-                Tonalize CV Tools
+                Tonalize
               </h1>
             </div>
           </div>
