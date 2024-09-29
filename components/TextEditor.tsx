@@ -2,18 +2,9 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Head from "next/head";
-import {
-  ArrowLeft,
-  Zap,
-  RefreshCw,
-  FileText,
-  Edit,
-  Save,
-  Trash2,
-  Eye,
-  Menu,
-} from "lucide-react";
+import { ArrowLeft, Zap, RefreshCw, FileText, Edit } from "lucide-react";
 import { motion } from "framer-motion";
+import { BarChart } from "lucide-react";
 import {
   Select,
   SelectContent,
@@ -21,23 +12,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
-import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 import SavedInputs from "./SavedInputs";
 
 const TextEditorPage = () => {
@@ -141,87 +121,13 @@ const TextEditorPage = () => {
               <h1 className="text-2xl font-bold text-indigo-600 dark:text-indigo-100">
                 Tonalize AI
               </h1>
-              <Dialog>
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" size="icon">
-                      <Menu className="h-4 w-4" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end">
-                    <DropdownMenuLabel>Settings</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem>
-                      <div className="flex items-center space-x-2">
-                        <Switch
-                          checked={saveInputs}
-                          onCheckedChange={toggleSaveInputs}
-                          id="save-inputs"
-                        />
-                        <label
-                          htmlFor="save-inputs"
-                          className="text-sm cursor-pointer"
-                        >
-                          Save inputs for analysis
-                        </label>
-                      </div>
-                    </DropdownMenuItem>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem asChild>
-                      <DialogTrigger>
-                        <div className="flex items-center">
-                          <Eye className="h-4 w-4 mr-2" />
-                          View Saved Inputs
-                        </div>
-                      </DialogTrigger>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-
-                <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
-                  <DialogHeader>
-                    <DialogTitle>Saved Inputs</DialogTitle>
-                  </DialogHeader>
-                  <div className="space-y-4">
-                    {savedInputs.map((input) => (
-                      <div
-                        key={input.id}
-                        className="bg-gray-100 dark:bg-gray-700 p-4 rounded-lg"
-                      >
-                        <div className="flex justify-between items-start mb-2">
-                          <span className="text-sm text-gray-500 dark:text-gray-400">
-                            {input.date}
-                          </span>
-                          <div className="space-x-2">
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => loadSavedInput(input)}
-                            >
-                              <Save className="h-4 w-4" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="sm"
-                              onClick={() => deleteSavedInput(input.id)}
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        </div>
-                        <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-                          {input.text.length > 100
-                            ? `${input.text.slice(0, 100)}...`
-                            : input.text}
-                        </p>
-                        <span className="text-xs font-medium text-indigo-500 dark:text-indigo-400">
-                          Tone: {input.tone}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </DialogContent>
-              </Dialog>
+              <button
+                onClick={() => router.push("/analytics")}
+                className="flex items-center text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+              >
+                <BarChart className="h-5 w-5 mr-2" />
+                Analytics
+              </button>
             </div>
           </div>
         </nav>

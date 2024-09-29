@@ -82,7 +82,7 @@ const CVToolsPage = () => {
       );
       setIsLoading(false);
       if (isSavingEnabled) {
-        const newInput: SavedInputs = {
+        const newInput: SavedInputType = {
           id: Date.now(),
           ...formData,
           outputType: selectedOutputType,
@@ -146,15 +146,6 @@ const CVToolsPage = () => {
                   <Zap className="h-6 w-6 text-yellow-400 mr-2" />
                   Tonalize AI Document Creator
                 </h2>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
-                    Save Inputs
-                  </span>
-                  <Switch
-                    checked={isSavingEnabled}
-                    onCheckedChange={setIsSavingEnabled}
-                  />
-                </div>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="space-y-4">
                     <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center">

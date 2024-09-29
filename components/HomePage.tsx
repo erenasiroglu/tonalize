@@ -12,6 +12,7 @@ import {
   Sparkles,
   HelpCircle,
   Gift,
+  UserPlus,
 } from "lucide-react";
 import { AnimatePresence, motion } from "framer-motion";
 
@@ -56,6 +57,12 @@ const HomePage = () => {
                   className="p-2 rounded-full text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200"
                 >
                   <Globe className="h-6 w-6" />
+                </button>
+                <button
+                  onClick={() => router.push("/login-signup")}
+                  className="p-2 rounded-full text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200"
+                >
+                  <UserPlus className="h-6 w-6" />
                 </button>
               </div>
             </div>
