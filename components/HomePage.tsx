@@ -37,7 +37,7 @@ const HomePage = () => {
             <div className="flex items-center justify-between h-16">
               <div className="flex items-center">
                 <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-100">
-                  Tonalize
+                  Tonalize AI
                 </span>
               </div>
               <div className="flex items-center space-x-4">
@@ -91,7 +91,7 @@ const HomePage = () => {
                 <div className="mt-3 rounded-md shadow sm:mt-0 sm:ml-3">
                   <button
                     onClick={() => router.push("/cv-tools")}
-                    className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10 transition-colors duration-200"
+                    className="w-full flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-md text-indigo-600 bg-white hover:bg-gray-50 md:py-4 md:text-lg md:px-10 transition-colors duration-200 hover:bg-gray-100"
                   >
                     CV Tools
                   </button>
