@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Head from "next/head";
 import {
@@ -9,6 +9,7 @@ import {
   Send,
   RefreshCw,
   Zap,
+  BarChart,
 } from "lucide-react";
 import { motion } from "framer-motion";
 import {
@@ -18,6 +19,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import SavedInputsCV from "./SavedInputsCV";
 
 const CVToolsPage = () => {
   const router = useRouter();
@@ -30,6 +33,8 @@ const CVToolsPage = () => {
   const [output, setOutput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [selectedOutputType, setSelectedOutputType] = useState("coverLetter");
+  const [isSavingEnabled, setIsSavingEnabled] = useState(true);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
@@ -57,6 +62,22 @@ const CVToolsPage = () => {
         }. With my skills and experience, I believe I would be a valuable asset to your team...\n\n[Full AI-generated content would appear here]`
       );
       setIsLoading(false);
+
+      // Save the input only if saving is enabled
+      if (isSavingEnabled) {
+        const newInput: SavedInput = {
+          id: Date.now(),
+          ...formData,
+          outputType: selectedOutputType,
+          date: new Date().toLocaleString(),
+        };
+        const updatedInputs = [...savedInputs, newInput];
+        setSavedInputs(updatedInputs);
+        localStorage.setItem(
+          "savedCVToolsInputs",
+          JSON.stringify(updatedInputs)
+        );
+      }
     }, 2000);
   };
 
@@ -105,6 +126,13 @@ const CVToolsPage = () => {
               <h1 className="text-2xl font-bold text-indigo-600 dark:text-indigo-100">
                 Tonalize AI
               </h1>
+              <button
+                onClick={() => router.push("/analytics")}
+                className="flex items-center text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
+              >
+                <BarChart className="h-5 w-5 mr-2" />
+                Analytics
+              </button>
             </div>
           </div>
         </nav>
@@ -122,6 +150,15 @@ const CVToolsPage = () => {
                   <Zap className="h-6 w-6 text-yellow-400 mr-2" />
                   Tonalize AI Document Creator
                 </h2>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                    Save Inputs
+                  </span>
+                  <Switch
+                    checked={isSavingEnabled}
+                    onCheckedChange={setIsSavingEnabled}
+                  />
+                </div>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="space-y-4">
                     <div className="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-6 text-center">
@@ -276,6 +313,24 @@ const CVToolsPage = () => {
             </motion.div>
           </div>
         </main>
+
+        <div className="fixed bottom-4 right-4">
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="bg-indigo-600 text-white p-3 rounded-full shadow-lg hover:bg-indigo-700 transition-colors duration-200"
+          >
+            {isMenuOpen ? "Close" : "Saved Inputs"}
+          </button>
+          {isMenuOpen && (
+            <div className="absolute bottom-16 right-0 w-80 bg-white dark:bg-gray-800 rounded-lg shadow-xl p-4 overflow-y-auto max-h-96">
+              <SavedInputsCV
+                savedInputs={savedInputs}
+                onDelete={handleDeleteSavedInput}
+                onView={handleViewSavedInput}
+              />
+            </div>
+          )}
+        </div>
       </div>
     </>
   );
