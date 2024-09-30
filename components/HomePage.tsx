@@ -18,7 +18,7 @@ import { AnimatePresence, motion } from "framer-motion";
 
 const HomePage = () => {
   const router = useRouter();
-  const [isDarkMode, setIsDarkMode] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(false);
   const [language, setLanguage] = useState("en");
 
   const toggleDarkMode = () => {
