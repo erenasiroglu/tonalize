@@ -10,6 +10,7 @@ import {
   Activity,
 } from "lucide-react";
 import { motion } from "framer-motion";
+import NavBar from "./Navbar";
 
 const AnalyticsPage = () => {
   const router = useRouter();
@@ -36,23 +37,7 @@ const AnalyticsPage = () => {
         <link rel="canonical" href="https://tonalize.com/analytics" />
       </Head>
       <div className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100 dark:from-gray-900 dark:to-indigo-900">
-        <nav className="bg-white dark:bg-gray-800 shadow-md">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between h-16">
-              <button
-                onClick={() => router.push("/")}
-                className="flex items-center text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
-              >
-                <ArrowLeft className="h-5 w-5 mr-2" />
-                Back to Home
-              </button>
-              <h1 className="text-2xl font-bold text-indigo-600 dark:text-indigo-100">
-                Tonalize Analytics
-              </h1>
-            </div>
-          </div>
-        </nav>
-
+        <NavBar />
         <main className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             <motion.div

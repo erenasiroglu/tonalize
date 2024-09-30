@@ -2,9 +2,9 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Head from "next/head";
-import { ArrowLeft, Zap, RefreshCw, FileText, Edit } from "lucide-react";
+import { Zap, RefreshCw, FileText, Edit } from "lucide-react";
 import { motion } from "framer-motion";
-import { BarChart } from "lucide-react";
+
 import {
   Select,
   SelectContent,
@@ -19,6 +19,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import SavedInputs from "./SavedInputs";
+import NavBar from "./Navbar";
 
 const TextEditorPage = () => {
   const router = useRouter();
@@ -108,29 +109,7 @@ const TextEditorPage = () => {
         />
       </Head>
       <div className="min-h-screen bg-gradient-to-br from-purple-50 to-indigo-100 dark:from-gray-900 dark:to-indigo-900">
-        <nav className="bg-white dark:bg-gray-800 shadow-md">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between h-16">
-              <button
-                onClick={() => router.push("/")}
-                className="flex items-center text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
-              >
-                <ArrowLeft className="h-5 w-5 mr-2" />
-                Home
-              </button>
-              <h1 className="text-2xl font-bold text-indigo-600 dark:text-indigo-100">
-                Tonalize AI
-              </h1>
-              <button
-                onClick={() => router.push("/analytics")}
-                className="flex items-center text-gray-500 hover:text-gray-700 dark:text-gray-300 dark:hover:text-white transition-colors duration-200"
-              >
-                <BarChart className="h-5 w-5 mr-2" />
-                Analytics
-              </button>
-            </div>
-          </div>
-        </nav>
+        <NavBar />
         <main className="max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-8">
             <motion.div

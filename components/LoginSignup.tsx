@@ -1,16 +1,11 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  UserPlus,
-  LogIn,
-  ArrowLeft,
-  Sun,
-  Moon,
-  Globe,
-  Lock,
-} from "lucide-react";
+import { UserPlus, LogIn, Lock } from "lucide-react";
+import axios from "axios";
+import { setCookie, deleteCookie, getCookie } from "cookies-next";
+import Navbar from "@/components/Navbar";
 
 const LoginSignup = () => {
   const router = useRouter();
@@ -21,13 +16,46 @@ const LoginSignup = () => {
   const [isDarkMode, setIsDarkMode] = useState(true);
   const [language, setLanguage] = useState("en");
   const [isResetPassword, setIsResetPassword] = useState(false);
+  const [error, setError] = useState("");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  useEffect(() => {
+    const token = getCookie("token");
+    setIsLoggedIn(!!token);
+  }, []);
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(
-      isLogin ? "Login" : isResetPassword ? "Reset Password" : "Signup",
-      { email, password, name }
-    );
+    setError("");
+
+    try {
+      if (isLogin) {
+        const response = await axios.post("http://localhost:5001/api/login", {
+          email,
+          password,
+        });
+        console.log("Login successful", response.data);
+        setCookie("token", response.data.token, { maxAge: 60 * 60 * 24 * 7 });
+        setIsLoggedIn(true);
+        router.push("/");
+      } else if (isResetPassword) {
+        console.log("Reset Password", { email });
+      } else {
+        const response = await axios.post("http://localhost:5001/api/signup", {
+          name,
+          email,
+          password,
+        });
+        console.log("Signup successful", response.data);
+        setIsLogin(true);
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        setError(error.response.data.message);
+      } else {
+        setError("An unexpected error occurred");
+      }
+    }
   };
 
   const toggleDarkMode = () => {
@@ -35,49 +63,10 @@ const LoginSignup = () => {
     document.documentElement.classList.toggle("light");
   };
 
-  const changeLanguage = () => {
-    setLanguage(language === "en" ? "tr" : "en");
-  };
-
   return (
     <div className={`min-h-screen ${isDarkMode ? "dark" : ""}`}>
       <div className="bg-gradient-to-br from-purple-50 to-indigo-100 dark:from-gray-900 dark:to-indigo-900 min-h-screen">
-        <nav className="bg-white dark:bg-gray-800 shadow-md">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between h-16">
-              <div className="flex items-center">
-                <span className="text-2xl font-bold text-indigo-600 dark:text-indigo-100">
-                  Tonalize AI
-                </span>
-              </div>
-              <div className="flex items-center space-x-4">
-                <button
-                  onClick={toggleDarkMode}
-                  className="p-2 rounded-full text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200"
-                >
-                  {isDarkMode ? (
-                    <Sun className="h-6 w-6" />
-                  ) : (
-                    <Moon className="h-6 w-6" />
-                  )}
-                </button>
-                <button
-                  onClick={changeLanguage}
-                  className="p-2 rounded-full text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200"
-                >
-                  <Globe className="h-6 w-6" />
-                </button>
-                <button
-                  onClick={() => router.push("/")}
-                  className="p-2 rounded-full text-gray-400 hover:text-gray-500 dark:hover:text-gray-300 transition-colors duration-200"
-                >
-                  <ArrowLeft className="h-6 w-6" />
-                </button>
-              </div>
-            </div>
-          </div>
-        </nav>
-
+        <Navbar isDarkMode={isDarkMode} toggleDarkMode={toggleDarkMode} />
         <div className="flex justify-center items-center min-h-[calc(100vh-4rem)]">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
@@ -159,6 +148,7 @@ const LoginSignup = () => {
                       />
                     </div>
                   )}
+                  {error && <div className="text-red-500 text-sm">{error}</div>}
                   <div>
                     <button
                       type="submit"
@@ -186,6 +176,7 @@ const LoginSignup = () => {
                       onClick={() => {
                         setIsLogin(!isLogin);
                         setIsResetPassword(false);
+                        setError("");
                       }}
                       className="text-sm text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
                     >
@@ -195,7 +186,10 @@ const LoginSignup = () => {
                     </button>
                   )}
                   <button
-                    onClick={() => setIsResetPassword(!isResetPassword)}
+                    onClick={() => {
+                      setIsResetPassword(!isResetPassword);
+                      setError("");
+                    }}
                     className="text-sm text-indigo-600 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-300"
                   >
                     {isResetPassword
